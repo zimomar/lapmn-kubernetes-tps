@@ -1,0 +1,41 @@
+NAMESPACE              NAME                                             READY   STATUS    RESTARTS      AGE     IP             NODE           NOMINATED NODE   READINESS GATES
+default                pod/flaskimage-7fdd85b776-l6ttq                  1/1     Running   0             6m34s   172.17.0.3     minikube-m02   <none>           <none>
+kube-system            pod/coredns-78fcd69978-bw8bx                     1/1     Running   1 (17m ago)   137m    172.17.0.4     minikube       <none>           <none>
+kube-system            pod/etcd-minikube                                1/1     Running   1 (17m ago)   137m    192.168.49.2   minikube       <none>           <none>
+kube-system            pod/kindnet-4lpzd                                1/1     Running   1 (15m ago)   134m    192.168.49.3   minikube-m02   <none>           <none>
+kube-system            pod/kindnet-9vbjd                                1/1     Running   1 (17m ago)   134m    192.168.49.2   minikube       <none>           <none>
+kube-system            pod/kube-apiserver-minikube                      1/1     Running   1 (17m ago)   137m    192.168.49.2   minikube       <none>           <none>
+kube-system            pod/kube-controller-manager-minikube             1/1     Running   1 (17m ago)   137m    192.168.49.2   minikube       <none>           <none>
+kube-system            pod/kube-proxy-22gkw                             1/1     Running   1 (17m ago)   137m    192.168.49.2   minikube       <none>           <none>
+kube-system            pod/kube-proxy-czk9c                             1/1     Running   1 (15m ago)   134m    192.168.49.3   minikube-m02   <none>           <none>
+kube-system            pod/kube-scheduler-minikube                      1/1     Running   1 (17m ago)   137m    192.168.49.2   minikube       <none>           <none>
+kube-system            pod/storage-provisioner                          1/1     Running   2 (16m ago)   137m    192.168.49.2   minikube       <none>           <none>
+kubernetes-dashboard   pod/dashboard-metrics-scraper-687748788c-gmwn7   1/1     Running   1 (17m ago)   137m    172.17.0.3     minikube       <none>           <none>
+kubernetes-dashboard   pod/kubernetes-dashboard-744fc84fb7-wbwq6        1/1     Running   1 (17m ago)   137m    172.17.0.2     minikube       <none>           <none>
+
+NAMESPACE              NAME                                TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                  AGE     SELECTOR
+default                service/flaskimage                  NodePort    10.108.187.85   <none>        5000:32200/TCP           6m23s   app=flaskimage
+default                service/kubernetes                  ClusterIP   10.96.0.1       <none>        443/TCP                  78m     <none>
+kube-system            service/kube-dns                    ClusterIP   10.96.0.10      <none>        53/UDP,53/TCP,9153/TCP   137m    k8s-app=kube-dns
+kubernetes-dashboard   service/dashboard-metrics-scraper   ClusterIP   10.97.7.66      <none>        8000/TCP                 137m    k8s-app=dashboard-metrics-scraper
+kubernetes-dashboard   service/kubernetes-dashboard        ClusterIP   10.109.67.199   <none>        80/TCP                   137m    k8s-app=kubernetes-dashboard
+
+NAMESPACE     NAME                        DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE    CONTAINERS    IMAGES                                SELECTOR
+kube-system   daemonset.apps/kindnet      2         2         2       2            2           <none>                   134m   kindnet-cni   kindest/kindnetd:v20221004-44d545d1   app=kindnet
+kube-system   daemonset.apps/kube-proxy   2         2         2       2            2           kubernetes.io/os=linux   137m   kube-proxy    k8s.gcr.io/kube-proxy:v1.22.2         k8s-app=kube-proxy
+
+NAMESPACE              NAME                                        READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS                  IMAGES                                                                                                                  SELECTOR
+default                deployment.apps/flaskimage                  1/1     1            1           6m34s   flaskapp                    zimomar/flaskapp                                                                                                        app=flaskimage
+kube-system            deployment.apps/coredns                     1/1     1            1           137m    coredns                     k8s.gcr.io/coredns/coredns:v1.8.4                                                                                       k8s-app=kube-dns
+kubernetes-dashboard   deployment.apps/dashboard-metrics-scraper   1/1     1            1           137m    dashboard-metrics-scraper   docker.io/kubernetesui/metrics-scraper:v1.0.8@sha256:76049887f07a0476dc93efc2d3569b9529bf982b22d29f356092ce206e98765c   k8s-app=dashboard-metrics-scraper
+kubernetes-dashboard   deployment.apps/kubernetes-dashboard        1/1     1            1           137m    kubernetes-dashboard        docker.io/kubernetesui/dashboard:v2.7.0@sha256:2e500d29e9d5f4a086b908eb8dfe7ecac57d2ab09d65b24f588b1d449841ef93         k8s-app=kubernetes-dashboard
+
+NAMESPACE              NAME                                                   DESIRED   CURRENT   READY   AGE     CONTAINERS                  IMAGES                                                                                                                  SELECTOR
+default                replicaset.apps/flaskimage-7fdd85b776                  1         1         1       6m35s   flaskapp                    zimomar/flaskapp                                                                                                        app=flaskimage,pod-template-hash=7fdd85b776
+kube-system            replicaset.apps/coredns-78fcd69978                     1         1         1       137m    coredns                     k8s.gcr.io/coredns/coredns:v1.8.4                                                                                       k8s-app=kube-dns,pod-template-hash=78fcd69978
+kubernetes-dashboard   replicaset.apps/dashboard-metrics-scraper-687748788c   1         1         1       137m    dashboard-metrics-scraper   docker.io/kubernetesui/metrics-scraper:v1.0.8@sha256:76049887f07a0476dc93efc2d3569b9529bf982b22d29f356092ce206e98765c   k8s-app=dashboard-metrics-scraper,pod-template-hash=687748788c
+kubernetes-dashboard   replicaset.apps/kubernetes-dashboard-744fc84fb7        1         1         1       137m    kubernetes-dashboard        docker.io/kubernetesui/dashboard:v2.7.0@sha256:2e500d29e9d5f4a086b908eb8dfe7ecac57d2ab09d65b24f588b1d449841ef93         k8s-app=kubernetes-dashboard,pod-template-hash=744fc84fb7
+
+NAMESPACE   NAME                STATUS   ROLES                  AGE    VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
+            node/minikube       Ready    control-plane,master   137m   v1.22.2   192.168.49.2   <none>        Ubuntu 20.04.2 LTS   5.10.76-linuxkit   docker://20.10.8
+            node/minikube-m02   Ready    <none>                 15m    v1.22.2   192.168.49.3   <none>        Ubuntu 20.04.2 LTS   5.10.76-linuxkit   docker://20.10.8
