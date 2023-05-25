@@ -28,13 +28,25 @@ spec:
       containers:
         - env:
             - name: WORDPRESS_DB_HOST
-              value: db
+              valueFrom:
+                configMapKeyRef:
+                  name: credentials
+                  key: HOSTNAME
             - name: WORDPRESS_DB_NAME
-              value: exampledb
+              valueFrom:
+                configMapKeyRef:
+                  name: credentials
+                  key: DATABASE
             - name: WORDPRESS_DB_PASSWORD
-              value: examplepass
+              valueFrom:
+                configMapKeyRef:
+                  name: credentials
+                  key: PASSWORD
             - name: WORDPRESS_DB_USER
-              value: exampleuser
+              valueFrom:
+                configMapKeyRef:
+                  name: credentials
+                  key: USERNAME
           image: wordpress
           name: wordpress
           ports:

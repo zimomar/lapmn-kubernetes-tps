@@ -28,13 +28,20 @@ spec:
       containers:
         - env:
             - name: MYSQL_DATABASE
-              value: exampledb
+              valueFrom:
+                configMapKeyRef:
+                  name: credentials
+                  key: DATABASE
             - name: MYSQL_PASSWORD
-              value: examplepass
-            - name: MYSQL_RANDOM_ROOT_PASSWORD
-              value: "1"
+              valueFrom:
+                configMapKeyRef:
+                  name: credentials
+                  key: PASSWORD 
             - name: MYSQL_USER
-              value: exampleuser
+              valueFrom:
+                configMapKeyRef:
+                  name: credentials
+                  key: USERNAME
           image: mysql:5.7
           name: db
           resources: {}
