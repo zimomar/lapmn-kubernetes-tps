@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert -f docker/docker-compose.yml
+    kompose.cmd: kompose convert -f ./docker-compose.yml
     kompose.version: 1.28.0 (c4137012e)
   creationTimestamp: null
   labels:
@@ -18,41 +18,45 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose convert -f docker/docker-compose.yml
+        kompose.cmd: kompose convert -f ./docker-compose.yml
         kompose.version: 1.28.0 (c4137012e)
       creationTimestamp: null
       labels:
-        io.kompose.network/docker-default: "true"
+        io.kompose.network/docker-nextcloud-net: "true"
         io.kompose.service: db
     spec:
       containers:
-        - env:
+        - args:
+            - --transaction-isolation=READ-COMMITTED
+            - --log-bin=binlog
+            - --binlog-format=ROW
+          env:
             - name: MYSQL_DATABASE
               valueFrom:
                 configMapKeyRef:
-                  name: credentials
                   key: DATABASE
+                  name: credential
             - name: MYSQL_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: credentials
-                  key: PASSWORD 
+                secretKeyRef:
+                  key: PASSWORD
+                  name: credential 
             - name: MYSQL_USER
               valueFrom:
-                configMapKeyRef:
-                  name: credentials
+                secretKeyRef:
                   key: USERNAME
+                  name: credential
+          image: mariadb:10.6
+          name: db
           ports:
             - containerPort: 3306
-          image: mysql:5.7
-          name: db
           resources: {}
           volumeMounts:
             - mountPath: /var/lib/mysql
-              name: db
+              name: db-data
       restartPolicy: Always
       volumes:
-        - name: db
+        - name: db-data
           persistentVolumeClaim:
-            claimName: db
+            claimName: db-data
 status: {}
